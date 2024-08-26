@@ -1,0 +1,12 @@
+#titleSide {
+    -fx-background-color: #2C45F5;
+}
+
+#loginButton {
+    -fx-background-color: #2C45F5;
+}
+
+#loginInputArea {
+    -fx-background-color: #A9E9B0;
+    -fx-text-fill: #202020;
+}

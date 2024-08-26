@@ -3,7 +3,7 @@ package org.code.application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /* Teste de exibição de interface */
@@ -12,13 +12,15 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/TestView.fxml"));
-        AnchorPane anchorPane = fxmlLoader.load();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
+        HBox hBox = fxmlLoader.load();
 
-        Scene sceneTest = new Scene(anchorPane);
+        Scene scene = new Scene(hBox);
 
-        stage.setTitle("teste");
-        stage.setScene(sceneTest);
+        scene.getStylesheets().add(getClass().getResource("/gui/styles/loginStyle.css").toExternalForm());
+
+        stage.setTitle("Login");
+        stage.setScene(scene);
         stage.show();
     }
 
