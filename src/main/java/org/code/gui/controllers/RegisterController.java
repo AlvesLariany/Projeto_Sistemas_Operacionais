@@ -21,4 +21,3 @@ public class RegisterController {
     @FXML
     private Button registerbutton;
 }
-
