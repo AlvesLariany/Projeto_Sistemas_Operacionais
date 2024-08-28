@@ -4,6 +4,7 @@
 
 #loginButton {
     -fx-background-color: #2C45F5;
+    -fx-font-weight: bold;
 }
 
 #loginInputArea {
