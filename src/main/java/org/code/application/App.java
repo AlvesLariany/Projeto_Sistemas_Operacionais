@@ -7,22 +7,27 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class App extends Application {
+    private static Scene scene;
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/ChatView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
         Pane pane = fxmlLoader.load();
 
-        Scene scene = new Scene(pane);
+        scene = new Scene(pane);
 
-        scene.getStylesheets().add(getClass().getResource("/gui/styles/ChatStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/gui/styles/loginStyle.css").toExternalForm());
 
-        stage.setTitle("Login");
+        stage.setTitle("Register");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static Scene getSceneMainReference() {
+        return scene;
     }
 }

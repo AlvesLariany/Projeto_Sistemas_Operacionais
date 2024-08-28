@@ -29,13 +29,13 @@
                </font>
             </Label>
             <TextField layoutX="36.0" layoutY="115.0" prefHeight="33.0" prefWidth="258.0" promptText="Digite seu email" />
-            <PasswordField layoutX="37.0" layoutY="210.0" prefHeight="33.0" prefWidth="258.0" promptText="Informe sua senha" />
+            <PasswordField layoutX="37.0" layoutY="210.0" prefHeight="33.0" prefWidth="258.0" promptText="Informe sua password" />
             <Label layoutX="38.0" layoutY="95.0" text="Email">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="loginButton" layoutX="112.0" layoutY="284.0" mnemonicParsing="false" onAction="#onButtonLoginAction" prefHeight="28.0" prefWidth="102.0" text="Entrar" textFill="WHITE">
+            <Button fx:id="loginButton" layoutX="112.0" layoutY="284.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="102.0" text="Entrar" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -44,19 +44,19 @@
                   <Font size="11.5" />
                </font>
             </Label>
-            <Label layoutX="182.0" layoutY="349.0" text="cadastre-se" underline="true">
-               <font>
-                  <Font size="11.5" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Label>
             <Label layoutX="36.0" layoutY="190.0" text="Senha">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button fx:id="createAccountButton" graphicTextGap="0.0" layoutX="171.0" layoutY="344.0" mnemonicParsing="false" onAction="#onCreateAccountButtonOnAction" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: none;" text="cadastre-se" underline="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="11.5" />
+               </font>
+            </Button>
          </Pane>
       </VBox>
    </HBox>
