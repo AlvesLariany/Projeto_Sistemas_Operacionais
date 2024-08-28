@@ -11,98 +11,76 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Pane prefHeight="100.0" prefWidth="115.0" />
-         </children>
-      </HBox>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="716.0" spacing="20">
-         <children>
-            <HBox alignment="CENTER" prefHeight="81.0" prefWidth="716.0">
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="51.0" layoutY="36.0" text="Cadastre-se">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.code.gui.controllers.RegisterController">
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Pane prefHeight="100.0" prefWidth="115.0"/>
+    </HBox>
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="400.0" prefWidth="716.0" spacing="20">
+        <HBox alignment="CENTER" prefHeight="81.0" prefWidth="716.0">
+            <Pane prefHeight="200.0" prefWidth="200.0">
+                <Label layoutX="51.0" layoutY="36.0" text="Cadastre-se">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+            </Pane>
+        </HBox>
+        <Pane prefHeight="18.0" prefWidth="716.0"/>
+        <HBox alignment="CENTER" prefHeight="274.0" prefWidth="716.0">
+            <Pane prefHeight="705.0" prefWidth="716.0">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+                <Pane fx:id="register" layoutX="210.0" layoutY="-27.0" prefHeight="281.0" prefWidth="284.0">
+                    <Pane layoutX="1.0" layoutY="-1.0" prefHeight="69.0" prefWidth="284.0">
+                        <padding>
+                            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+                        </padding>
+                        <Label layoutX="16.0" layoutY="14.0" text="Nome">
+                            <font>
+                                <Font name="System Bold" size="15.0"/>
+                            </font>
                         </Label>
-                     </children>
-                  </Pane>
-               </children>
-            </HBox>
-            <Pane prefHeight="18.0" prefWidth="716.0" />
-            <HBox alignment="CENTER" prefHeight="274.0" prefWidth="716.0">
-               <children>
-                  <Pane prefHeight="705.0" prefWidth="716.0">
-                     <children>
-                        <Pane fx:id="register" layoutX="210.0" layoutY="-27.0" prefHeight="281.0" prefWidth="284.0">
-                           <children>
-                              <Pane layoutX="1.0" layoutY="-1.0" prefHeight="69.0" prefWidth="284.0">
-                                 <children>
-                                    <Label layoutX="16.0" layoutY="14.0" text="Nome">
-                                       <font>
-                                          <Font name="System Bold" size="15.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="14.0" layoutY="35.0" prefHeight="31.0" prefWidth="257.0" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                                 </padding>
-                              </Pane>
-                              <Pane layoutY="189.0" prefHeight="97.0" prefWidth="284.0">
-                                 <children>
-                                    <Pane prefHeight="69.0" prefWidth="284.0">
-                                       <children>
-                                          <Button fx:id="buttonregister" layoutX="94.0" layoutY="34.0" mnemonicParsing="false" text="Cadastre-se">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </Button>
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                                       </opaqueInsets>
-                                    </Pane>
-                                 </children>
-                              </Pane>
-                              <Pane layoutY="69.0" prefHeight="69.0" prefWidth="284.0">
-                                 <children>
-                                    <Label layoutX="16.0" layoutY="11.0" text="Email">
-                                       <font>
-                                          <Font name="System Bold" size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </Pane>
-                              <Pane layoutY="106.0" prefHeight="31.0" prefWidth="257.0">
-                                 <children>
-                                    <TextField layoutX="14.0" layoutY="-2.0" prefHeight="31.0" prefWidth="257.0" />
-                                    <Label layoutX="14.0" layoutY="39.0" text="Senha">
-                                       <font>
-                                          <Font name="System Bold" size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </Pane>
-                              <PasswordField layoutX="13.0" layoutY="167.0" prefHeight="31.0" prefWidth="257.0" />
-                           </children>
+                        <TextField fx:id="areaName" layoutX="14.0" layoutY="35.0" prefHeight="31.0"
+                                   prefWidth="257.0"/>
+                    </Pane>
+                    <Pane layoutY="189.0" prefHeight="97.0" prefWidth="284.0">
+                        <Pane prefHeight="69.0" prefWidth="284.0">
+                            <opaqueInsets>
+                                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+                            </opaqueInsets>
+                            <Button fx:id="registerButton" onAction="#onActionButtonCreateAccount" layoutX="94.0" layoutY="34.0"
+                                    mnemonicParsing="false" text="Cadastre-se">
+                                <font>
+                                    <Font name="System Bold" size="15.0"/>
+                                </font>
+                                <cursor>
+                                    <Cursor fx:constant="HAND"/>
+                                </cursor>
+                            </Button>
                         </Pane>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Pane>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+                    </Pane>
+                    <Pane layoutY="69.0" prefHeight="69.0" prefWidth="284.0">
+                        <Label layoutX="16.0" layoutY="11.0" text="Email">
+                            <font>
+                                <Font name="System Bold" size="15.0"/>
+                            </font>
+                        </Label>
+                    </Pane>
+                    <Pane layoutY="106.0" prefHeight="31.0" prefWidth="257.0">
+                        <TextField fx:id="areaEmail" layoutX="14.0" layoutY="-2.0" prefHeight="31.0"
+                                   prefWidth="257.0"/>
+                        <Label layoutX="14.0" layoutY="39.0" text="Senha">
+                            <font>
+                                <Font name="System Bold" size="15.0"/>
+                            </font>
+                        </Label>
+                    </Pane>
+                    <PasswordField fx:id="areaPassword" layoutX="13.0" layoutY="167.0" prefHeight="31.0" prefWidth="257.0"/>
+                </Pane>
+            </Pane>
+        </HBox>
+    </VBox>
 </VBox>

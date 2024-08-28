@@ -7,15 +7,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
+    private static Scene scene;
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/RegisterView.fxml"));
-        VBox vbox = fxmlLoader.load();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
+        Pane pane = fxmlLoader.load();
 
-        Scene scene = new Scene(vbox);
+        scene = new Scene(pane);
 
-        scene.getStylesheets().add(getClass().getResource("/gui/styles/RegisterStyle.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/gui/styles/loginStyle.css").toExternalForm());
 
         stage.setTitle("Register");
         stage.setScene(scene);
@@ -24,5 +25,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static Scene getSceneMainReference() {
+        return scene;
     }
 }
