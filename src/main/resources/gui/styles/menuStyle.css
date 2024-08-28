@@ -1,0 +1,4 @@
+#headerMenu, #chatPath, #employeePath, #editalPath {
+    -fx-background-color: #A9E9B0;
+    -fx-font-weight: bold;
+}

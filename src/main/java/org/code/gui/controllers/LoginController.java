@@ -6,11 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import org.code.gui.util.Alerts;
 
 public class LoginController {
     @FXML
-    private Pane titleSide;
+    private VBox titleSide;
 
     @FXML
     private HBox loginSide;
