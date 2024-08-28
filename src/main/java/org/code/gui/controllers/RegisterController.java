@@ -3,6 +3,7 @@ package org.code.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.code.gui.util.Alerts;
@@ -19,15 +20,16 @@ public class RegisterController {
     LoadViewInPane loadViewInPane = new LoadViewInPane();
 
     @FXML
-    private TextField areaName;
+    private TextField emailField;
 
     @FXML
-    private TextField areaEmail;
+    private PasswordField senhaField;
 
     @FXML
-    private PasswordField areaPassword;
+    private Button buttonRegister;
 
     @FXML
+
     private Button registerButton;
 
     private User createNewUser(String name, String email, String password) {
