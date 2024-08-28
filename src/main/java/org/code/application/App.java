@@ -3,7 +3,12 @@ package org.code.application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+<<<<<<< Updated upstream
 import javafx.scene.layout.VBox;
+=======
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+>>>>>>> Stashed changes
 import javafx.stage.Stage;
 
 /* Teste de exibição de interface */
