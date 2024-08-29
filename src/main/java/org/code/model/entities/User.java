@@ -1,19 +1,19 @@
 package org.code.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(nullable = false)
     private String name;
+    @Id
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     public User () {}
@@ -27,7 +27,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -41,16 +40,12 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return Objects.equals(id, user.id);
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    public Long getId() {
-        return id;
+        return email != null ? email.hashCode() : 0;
     }
 
     public String getName() {
@@ -63,10 +58,6 @@ public class User implements Serializable {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {

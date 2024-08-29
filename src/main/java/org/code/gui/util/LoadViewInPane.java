@@ -39,6 +39,9 @@ public class LoadViewInPane {
                 }
             }
 
+            System.out.println();
+            System.out.println("filho vindo do LoadViewInPane -> " + rootPane.getChildren());
+
             mainStage.setTitle(titlePane);
             mainStage.show();
         } catch (IOException error) {

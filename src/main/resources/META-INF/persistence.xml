@@ -7,7 +7,7 @@
     <persistence-unit name="unit-database" transaction-type="RESOURCE_LOCAL">
         <properties>
             <!-- Configuração do banco de dados H2 -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/testedb" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/acadconectadb" />
             <property name="jakarta.persistence.jdbc.user" value="geek" />
             <property name="jakarta.persistence.jdbc.password" value="rootgeek" />
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

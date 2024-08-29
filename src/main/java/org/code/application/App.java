@@ -16,7 +16,13 @@ public class App extends Application {
 
         scene = new Scene(pane);
 
+        Pane rootPane = (Pane) scene.getRoot();
+
         scene.getStylesheets().add(getClass().getResource("/gui/styles/loginStyle.css").toExternalForm());
+
+        Pane paneMain = (Pane) scene.getRoot();
+
+        System.out.println("Filhos do scene exibido do main -> " + rootPane.getChildren());
 
         stage.setTitle("Register");
         stage.setScene(scene);
