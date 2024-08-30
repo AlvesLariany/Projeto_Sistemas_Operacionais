@@ -4,28 +4,36 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.code.gui.util.LoadViewInPane;
 
 public class App extends Application {
-    private static Scene scene;
+    private static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/RegisterView.fxml"));
+        mainStage = stage;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
         Pane pane = fxmlLoader.load();
 
-        scene = new Scene(pane);
+        Scene scene = new Scene(pane);
 
-        stage.setTitle("Register");
-        stage.setScene(scene);
-        stage.show();
+        Pane mainPane = (Pane) scene.getRoot();
+
+        LoadViewInPane.fullScreen(stage);
+
+        mainStage.setTitle("Register");
+        mainStage.setScene(scene);
+        mainStage.show();
     }
 
     public static void main(String[] args) {
         launch();
     }
 
-    public static Scene getSceneMainReference() {
-        return scene;
+    public static Stage getStageMainReference() {
+        return mainStage;
     }
 }
