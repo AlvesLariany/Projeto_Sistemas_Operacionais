@@ -12,7 +12,6 @@ module org.code {
     exports org.code.model.entities;
     opens org.code.model.entities;
 
-    // Expondo pacotes para JavaFX
     exports org.code.application to javafx.fxml;
     opens org.code.application;
 
