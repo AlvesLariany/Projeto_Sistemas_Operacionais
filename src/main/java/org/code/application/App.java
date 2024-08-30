@@ -17,8 +17,6 @@ public class App extends Application {
 
         scene = new Scene(pane);
 
-        scene.getStylesheets().add(getClass().getResource("/gui/styles/loginStyle.css").toExternalForm());
-
         stage.setTitle("Register");
         stage.setScene(scene);
         stage.show();

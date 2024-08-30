@@ -13,8 +13,6 @@ module org.code {
     opens org.code.model.entities;
 
     //expondo controladores do javafx
-    exports org.code.gui.controllers to javafx.fxml;
-    opens org.code.gui.controllers to javafx.fxml;
 
     //expondo diretorio principal para o javafx
     exports org.code.application to javafx.fxml;
