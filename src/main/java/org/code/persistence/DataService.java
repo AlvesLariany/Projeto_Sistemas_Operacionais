@@ -4,17 +4,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class JpaServices {
+public class DataService {
+    private final static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit-database");
+    private final static EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    private EntityManager entityManager;
-    private EntityManagerFactory entityManagerFactory;
-
-    public JpaServices() {
-        this.entityManagerFactory = Persistence.createEntityManagerFactory("unit-database");
-        this.entityManager = entityManagerFactory.createEntityManager();
-    }
-
-    public <T> boolean saveItem(T object) {
+    public static <T> boolean saveItem(T object) {
         if (object != null) {
             try {
                 entityManager.getTransaction().begin();
@@ -35,11 +29,11 @@ public class JpaServices {
         return false;
     }
 
-    public void closeJpaService() {
+    public void closeDataService() {
         try {
             if (entityManagerFactory != null && entityManager != null) {
-                this.entityManagerFactory.close();
-                this.entityManager.close();
+                entityManagerFactory.close();
+                entityManager.close();
             }
             else {
                 throw new NullPointerException();
