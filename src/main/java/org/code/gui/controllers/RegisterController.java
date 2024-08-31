@@ -7,9 +7,8 @@ import javafx.scene.control.TextField;
 import org.code.gui.util.Alerts;
 import org.code.gui.util.HashUtil;
 import org.code.gui.util.LoadViewInPane;
-import org.code.model.entities.User;
+import org.code.model.entities.Users;
 import org.code.persistence.DataService;
-import org.w3c.dom.Text;
 
 public class RegisterController {
     private final int TAM_INFO_USER = 3;
@@ -65,12 +64,11 @@ public class RegisterController {
 
         if (isHaveNull(informationUser)) {
             //quando criar o usuário, verificar no banco se o email já foi registrado
-            //mandar senha e email criptografados para o banco de dados, realizar comparação na consulta
             //criar termos de uso da plataforma
 
             String[] hashes = makeHashOfEmailAndPassword(informationUser[USER_EMAIL], informationUser[USER_PASSWORD]);
 
-            if (DataService.saveItem(new User(informationUser[USER_NAME], hashes[0], hashes[1]))) {
+            if (DataService.saveItem(new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "/resources/media/default_image_user.png"))) {
                 Alerts.showAlert("Conta criada", null, "Conta criada com sucesso, realize o login para aproveitar a plataforma", Alert.AlertType.CONFIRMATION);
             }
             else {
