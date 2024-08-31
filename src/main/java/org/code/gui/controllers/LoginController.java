@@ -2,16 +2,14 @@ package org.code.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.code.gui.util.Alerts;
-import org.code.gui.util.HashUtil;
+import org.code.model.util.HashUtil;
 import org.code.gui.util.LoadViewInPane;
-import org.code.gui.util.TokenUserUtil;
+import org.code.model.util.TokenUserUtil;
 import org.code.model.entities.Users;
 import org.code.persistence.DataService;
-import org.hibernate.loader.ast.internal.AbstractCollectionBatchLoader;
 
 public class LoginController {
     @FXML
@@ -36,8 +34,12 @@ public class LoginController {
                 //salvando id do usuário em memória
                 TokenUserUtil.setUserToken(user.getEmail());
 
+                System.out.println(TokenUserUtil.getUserToken());
+
                 //redirecionar para main posteriormente
                 LoadViewInPane.loadView("UserView.fxml", null, "Main");
+
+                System.out.println("foi tela");
             }
             else {
                 Alerts.showAlert("Erro", null, "A senha informada está incorreta", Alert.AlertType.WARNING);

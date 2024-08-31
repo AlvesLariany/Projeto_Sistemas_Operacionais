@@ -51,7 +51,7 @@ public class DataService {
 
         } catch (NullPointerException error) {
             aplyRollback();
-            Alerts.showAlert("Erro", null, "Erro ao buscar usuário no banco de dados", Alert.AlertType.ERROR);
+            //alerta foi removido daqui
         }
         return null;
     }

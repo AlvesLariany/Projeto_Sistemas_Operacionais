@@ -1,4 +1,4 @@
-package org.code.gui.util;
+package org.code.model.util;
 
 public class TokenUserUtil {
     private static String tokenUser = null;

@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.code.application.App;
+import org.code.model.entities.Users;
+import org.code.persistence.DataService;
 
 import java.io.File;
 
@@ -37,5 +39,13 @@ public class ImageUtil {
         }
 
         return new Image(file.toURI().toString());
+    }
+
+    public static Image getImageWithUserToken(String hashEmail) {
+        Users user = DataService.findByHashEmail(hashEmail);
+
+        String pathImage = user.getImage_path();
+
+        return new Image(pathImage);
     }
 }

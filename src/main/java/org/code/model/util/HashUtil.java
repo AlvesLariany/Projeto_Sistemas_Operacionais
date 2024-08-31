@@ -1,4 +1,4 @@
-package org.code.gui.util;
+package org.code.model.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
