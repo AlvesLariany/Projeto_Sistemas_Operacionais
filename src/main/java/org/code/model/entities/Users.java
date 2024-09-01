@@ -1,36 +1,38 @@
 package org.code.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class User implements Serializable {
+public class Users implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String name;
     private String email;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String password;
+    private String image_path;
 
-    public User () {}
+    public Users() {}
 
-    public User(String name, String email, String password) {
-        this.name = name;
+    public Users(String email, String name, String password, String image_path) {
         this.email = email;
+        this.name = name;
         this.password = password;
+        this.image_path = image_path;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
+        return "Users{" +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", image_path='" + image_path + '\'' +
                 '}';
     }
 
@@ -39,18 +41,18 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        Users user = (Users) o;
 
-        return Objects.equals(id, user.id);
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return email != null ? email.hashCode() : 0;
     }
 
-    public Long getId() {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
     public String getName() {
@@ -61,19 +63,19 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 }
