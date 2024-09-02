@@ -59,7 +59,7 @@ public class RegisterController {
 
                 String[] hashes = makeHashOfEmailAndPassword(informationUser[USER_EMAIL], informationUser[USER_PASSWORD]);
 
-                if (DataService.saveItem(new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "resources/media/logo_acada_conecta.png"))) {
+                if (DataService.saveItem(new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "resources/media/logo_acada_conecta.png", null))) {
                     Alerts.showAlert("Conta criada", null, "Conta criada com sucesso, realize o login para aproveitar a plataforma", Alert.AlertType.CONFIRMATION);
                 }
                 else {

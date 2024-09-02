@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.code.gui.util.LoadViewInPane;
+import org.code.persistence.Settlement;
 
 public class App extends Application {
     private static Stage mainStage;
@@ -14,7 +15,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         mainStage = stage;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/MainView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
         Pane pane = fxmlLoader.load();
 
         Scene scene = new Scene(pane);
@@ -26,6 +27,8 @@ public class App extends Application {
         mainStage.setTitle("Register");
         mainStage.setScene(scene);
         mainStage.show();
+
+        Settlement.implement();
     }
 
     public static void main(String[] args) {

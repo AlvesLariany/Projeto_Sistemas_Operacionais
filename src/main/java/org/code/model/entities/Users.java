@@ -3,7 +3,10 @@ package org.code.model.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Users implements Serializable {
@@ -15,15 +18,32 @@ public class Users implements Serializable {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String image_path;
+
+    @Column(nullable = true)
+    private Long codEspecial;
+
+    @OneToMany(mappedBy = "id_users")
+    private Set<Message> messageSet = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_in_chanel",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "chanel_id")
+    )
+    private Set<Chanel> chanelSet = new LinkedHashSet<>();
 
     public Users() {}
 
-    public Users(String email, String name, String password, String image_path) {
+    public Users(String email, String name, String password, String image_path, Long codEspecial) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.image_path = image_path;
+        this.codEspecial = codEspecial;
     }
 
     @Override
@@ -33,6 +53,7 @@ public class Users implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", image_path='" + image_path + '\'' +
+                ", codEspecial=" + codEspecial +
                 '}';
     }
 
@@ -53,6 +74,10 @@ public class Users implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -77,5 +102,29 @@ public class Users implements Serializable {
 
     public void setImage_path(String image_path) {
         this.image_path = image_path;
+    }
+
+    public Long getCodEspecial() {
+        return codEspecial;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
+    public Set<Chanel> getChanelSet() {
+        return chanelSet;
+    }
+
+    public void setChanelSet(Set<Chanel> chanelSet) {
+        this.chanelSet = chanelSet;
+    }
+
+    public void setOneChanel(Chanel chanel) {
+        this.chanelSet.add(chanel);
     }
 }

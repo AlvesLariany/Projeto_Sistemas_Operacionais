@@ -14,22 +14,35 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainController {
+    private boolean orientation = true;
 
     @FXML
     private ImageView imageView;
 
     @FXML
     private VBox expandedMenu;
+
+
     @FXML
     private void toggleMenu() {
         FadeTransition ft = new FadeTransition(Duration.millis(300), expandedMenu);
 
         RotateTransition rotateTransition = new RotateTransition();
+
         rotateTransition.setNode(imageView);
-        rotateTransition.setDuration(Duration.seconds(.5));
-        rotateTransition.setByAngle(180);
+        rotateTransition.setDuration(Duration.seconds(.3));
         rotateTransition.setCycleCount(1);
         rotateTransition.setAutoReverse(false);
+
+        if (orientation) {
+            rotateTransition.setByAngle(90);
+            orientation = !orientation;
+        }
+        else {
+            rotateTransition.setByAngle(-90);
+            orientation = !orientation;
+        }
+
 
         rotateTransition.play(); // Iniciar a rotação
 
