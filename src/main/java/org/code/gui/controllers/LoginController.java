@@ -37,7 +37,7 @@ public class LoginController {
                 System.out.println(TokenUserUtil.getUserToken());
 
                 //redirecionar para main posteriormente
-                LoadViewInPane.loadView("UserView.fxml", null, "Main");
+                LoadViewInPane.loadView("MainView.fxml", null, "Main");
 
                 System.out.println("foi tela");
             }
