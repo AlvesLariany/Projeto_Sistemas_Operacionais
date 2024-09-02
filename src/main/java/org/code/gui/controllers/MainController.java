@@ -14,22 +14,25 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainController {
+
     @FXML
     private ImageView imageView;
 
     @FXML
     private VBox expandedMenu;
-
-
-
-
     @FXML
     private void toggleMenu() {
         FadeTransition ft = new FadeTransition(Duration.millis(300), expandedMenu);
-        /*RotateTransition rotate = new RotateTransition(Duration.millis(200), imageView);*/
-        /*Image image = new Image(getClass().getResource("/resources/media/seta.png").toExternalForm());*/
-        /*imageView.setImage(image);
-        imageView.setPreserveRatio(true);*/
+
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setNode(imageView);
+        rotateTransition.setDuration(Duration.seconds(.5));
+        rotateTransition.setByAngle(180);
+        rotateTransition.setCycleCount(1);
+        rotateTransition.setAutoReverse(false);
+
+        rotateTransition.play(); // Iniciar a rotação
+
         if (expandedMenu.isVisible()) {
             ft.setFromValue(1.0);
             ft.setToValue(0.0);
@@ -38,11 +41,9 @@ public class MainController {
             expandedMenu.setVisible(true);
             ft.setFromValue(0.0);
             ft.setToValue(1.0);
-
         }
 
         ft.play();
-        /*rotate.play();*/
-
+        rotateTransition.play();
     }
 }
