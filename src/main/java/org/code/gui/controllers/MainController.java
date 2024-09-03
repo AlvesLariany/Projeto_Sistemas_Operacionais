@@ -2,9 +2,14 @@ package org.code.gui.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -15,18 +20,23 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.code.application.App;
 import org.code.gui.util.Alerts;
 import org.code.gui.util.ImageUtil;
 import org.code.model.entities.Chanel;
 import org.code.model.entities.Message;
 import org.code.model.entities.Users;
+import org.code.model.util.HashUtil;
 import org.code.model.util.TokenChanelUtil;
 import org.code.model.util.TokenUserUtil;
 import org.code.persistence.DataService;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class MainController {
@@ -126,6 +136,29 @@ public class MainController {
         }
     }
 
+    private String dateFormater(String dateIn) {
+        String dateDefault = "yyyy-MM-dd";
+        String dateOutput = "dd/MM/yyyy";
+
+        String dateFormatted = null;
+
+        DateTimeFormatter dtm = DateTimeFormatter.ofPattern(dateDefault);
+        DateTimeFormatter dtmOutput = DateTimeFormatter.ofPattern(dateOutput);
+
+        try {
+            // Analisar a string de entrada usando o padrão de entrada
+            LocalDate date = LocalDate.parse(dateIn, dtm);
+
+            // Formatá-lo para o novo padrão
+            dateFormatted = date.format(dtmOutput);
+
+
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro ao converter a data: " + e.getMessage());
+        }
+        return dateFormatted;
+    }
+
     private void loadInView(List<Message> messages) {
         messages.forEach(message -> {
             try {
@@ -160,14 +193,16 @@ public class MainController {
 
                 Image image = ImageUtil.getImageWithEmailUser(users.getEmail());
 
+                String hour = message.getHour().toString();
+                String hourFormated = hour.substring(0, hour.length() - 4);
+
                 //adicionando o conteudo do banco na mensagem
-                messageControl.setContent(users.getName(), message.getDate().toString(), message.getHour().toString(), message.getContent(), image);
+                messageControl.setContent(users.getName(), dateFormater(message.getDate().toString()), hourFormated, message.getContent(), image);
 
                 //adicionando a mensagem no scrollpane
                 if (messageElement != null) {
                     contentScrollPane.getChildren().add(messageElement);
                 }
-
             } catch (IOException error) {
                 System.out.println("Error in load message: " + error.getMessage());
             }
@@ -210,8 +245,6 @@ public class MainController {
 
         //carrega as mensagens do canal clicado
         loadMessagesInChanel(chanelId);
-
-        scrollPaneMain.setVvalue(1.1);
     }
 
     @FXML
@@ -249,7 +282,6 @@ public class MainController {
                 loadMessagesInChanel(CHAT);
                 contentChatBar.setText("");
 
-                scrollPaneMain.setVvalue(1.1);
             }
             else {
                 Alerts.showAlert("Erro", null, "Erro ao enviar a mensagem, tente novamente", Alert.AlertType.WARNING);
@@ -269,15 +301,14 @@ public class MainController {
         if (actualPane != CANAIS) {
             alternateChanelInProfile(CANAIS);
         }
-        else{
-            System.out.println("Canal clicado mas nao troca para Profile");
-        }
+    }
+
+    private double calculateWdtht() {
+        return (rootElement.getWidth()) - 200;
     }
 
     private void alternateChanelInProfile(int idPane) {
         if (idPane == CANAIS) {
-
-            System.out.println("CHAMNDO CANIS DEPOIS DE EXIBIR PROFILE = " + rootElement.getChildren());
 
             rootElement.getChildren().remove(1);
 
@@ -310,6 +341,18 @@ public class MainController {
                 System.out.println("Error ao carregar vbox do profile: " + error.getMessage());
             }
 
+            profileView.setPrefWidth(calculateWdtht());
+
+            Scene scene = App.getStageMainReference().getScene();
+
+            scene.widthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    HBox root = (HBox) rootElement.getChildren().get(1);
+                    root.setPrefWidth(calculateWdtht());
+                }
+            });
+
             rootElement.getChildren().add(profileView);
 
             if (expandedMenu.isVisible()) {
@@ -319,6 +362,7 @@ public class MainController {
             actualPane = PROFILE;
         }
     }
+
 
     private void onEnterPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -340,8 +384,10 @@ public class MainController {
         actualPane = CANAIS;
         toggleMenu();
 
-        System.out.println(menuIsactive);
-        System.out.println(actualPane);
+        //evento que monitora o VBox dentro do scroll pane, serve para deslizar a tela para baixo de form autometica
+        contentScrollPane.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+            scrollPaneMain.setVvalue(1.0);
+        });
 
         contentChatBar.setOnKeyPressed(event -> onEnterPressed(event));
     }

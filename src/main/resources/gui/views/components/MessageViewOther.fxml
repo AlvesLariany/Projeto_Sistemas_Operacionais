@@ -12,7 +12,7 @@
 <VBox fx:id="rootMessage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.code.gui.controllers.MessageControl">
     <HBox prefHeight="45.0" prefWidth="300.0">
         <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="219.0">
-            <ImageView fx:id="user_icon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="user_icon" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="user_name">
                 <font>
                     <Font name="System Bold" size="14.0" />

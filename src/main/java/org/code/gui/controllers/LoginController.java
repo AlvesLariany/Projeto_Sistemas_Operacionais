@@ -33,6 +33,7 @@ public class LoginController {
 
                 //salvando id do usuário em memória
                 TokenUserUtil.setUserToken(user.getEmail());
+                TokenUserUtil.setCurrentemail(userEmail.getText());
 
                 //redirecionar para main posteriormente
                 LoadViewInPane.loadView("MainView.fxml", null, "Main");

@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class MessageControl {
@@ -30,6 +32,10 @@ public class MessageControl {
     public void setContent(String name, String date, String hour, String text, Image icon) {
         if (icon != null){
             user_icon.setImage(icon);
+            Rectangle rectangle = new Rectangle(0, 0, 38, 38);
+            rectangle.setArcHeight(35);
+            rectangle.setArcWidth(35);
+            user_icon.setClip(rectangle);
         }
         user_name.setText(name);
         date_send.setText(date);

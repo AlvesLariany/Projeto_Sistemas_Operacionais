@@ -26,10 +26,10 @@
                <Font name="System Bold" size="14.0" />
             </font>
             <HBox.margin>
-               <Insets left="10.0" />
+               <Insets right="10.0" />
             </HBox.margin>
          </Label>
-         <ImageView fx:id="user_icon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="user_icon" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
       </HBox>
    </HBox>
    <Pane fx:id="pane_text" prefHeight="85.0" prefWidth="330.0" style="-fx-background-color: #B8B8B8;">

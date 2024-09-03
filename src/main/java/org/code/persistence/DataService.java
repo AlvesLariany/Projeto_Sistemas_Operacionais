@@ -11,6 +11,7 @@ import org.code.gui.util.ImageUtil;
 import org.code.model.entities.Chanel;
 import org.code.model.entities.Message;
 import org.code.model.entities.Users;
+import org.code.model.util.TokenUserUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -78,6 +79,24 @@ public class DataService {
             //alerta foi removido daqui
         }
         return null;
+    }
+
+    public static void updateUserName(String newName) {
+        entityManager.getTransaction().begin();
+        {
+            Users users = findByHashEmail(TokenUserUtil.getUserToken());
+
+            if (users != null) {
+                //gerando bytes a partir do path da imagem do usuário
+                users.setName(newName);
+            }
+            else {
+                throw new IllegalArgumentException();
+            }
+            //atualizando usuário
+            entityManager.merge(users);
+        }
+        entityManager.getTransaction().commit();
     }
 
     //atualiza o campo do path da imagem com base no hash so email do user
