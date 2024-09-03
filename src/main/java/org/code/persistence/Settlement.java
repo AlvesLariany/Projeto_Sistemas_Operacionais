@@ -12,7 +12,7 @@ public class Settlement {
         //exemplos de inserções nas tabelas do banco de dados
 
         Chanel chanel = new Chanel(null, "Chat", "Canal de comunicação entre alunos");
-        Users users = new Users("caua@gmail", "caua", "1234", "c://", null);
+        Users users = null;
         //Message message = new Message(null, LocalTime.now(), LocalDate.now(), users, chanel);
 
         chanel.setOneUser(users);

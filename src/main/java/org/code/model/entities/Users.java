@@ -1,6 +1,7 @@
 package org.code.model.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -19,8 +20,9 @@ public class Users implements Serializable {
     @Column(nullable = false)
     private String password;
 
+    @Lob
     @Column(nullable = false)
-    private String image_path;
+    private byte[] image;
 
     @Column(nullable = true)
     private Long codEspecial;
@@ -38,11 +40,11 @@ public class Users implements Serializable {
 
     public Users() {}
 
-    public Users(String email, String name, String password, String image_path, Long codEspecial) {
+    public Users(String email, String name, String password, byte[] image, Long codEspecial) {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.image_path = image_path;
+        this.image = image;
         this.codEspecial = codEspecial;
     }
 
@@ -52,7 +54,6 @@ public class Users implements Serializable {
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", image_path='" + image_path + '\'' +
                 ", codEspecial=" + codEspecial +
                 '}';
     }
@@ -96,12 +97,12 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public String getImage_path() {
-        return image_path;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Long getCodEspecial() {

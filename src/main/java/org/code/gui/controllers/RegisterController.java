@@ -75,7 +75,9 @@ public class RegisterController {
 
                 String[] hashes = makeHashOfEmailAndPassword(informationUser[USER_EMAIL], informationUser[USER_PASSWORD]);
 
-                Users users = new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "/media/icon_perfil_default.png", null);
+                byte[] bytesOfImage = ImageUtil.generateBytesImage("/media/icon_perfil_default_6212.png");
+
+                Users users = new Users(hashes[0], informationUser[USER_NAME],  hashes[1], bytesOfImage, null);
 
                 setUserInChanels(users);
                 if (DataService.saveItem(users)) {

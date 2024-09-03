@@ -23,7 +23,7 @@ public class App extends Application {
 
         LoadViewInPane.fullScreen(stage);
 
-        mainStage.setTitle("Register");
+        mainStage.setTitle("Login");
         mainStage.setScene(scene);
         mainStage.show();
     }

@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.code.gui.util.Alerts;
+import org.code.gui.util.ImageUtil;
 import org.code.model.entities.Chanel;
 import org.code.model.entities.Message;
 import org.code.model.entities.Users;
@@ -114,9 +116,14 @@ public class MainController {
                 Users users = DataService.findByHashEmail(message.getId_users().getEmail());
 
                 /* GARANTIR QUE TODOS OS USUÁRIOS RECEM CRIADOS POSSUAM UMA IMAGEM PADRÃO */
+                Image image = ImageUtil.getImageWithEmailUser(users.getEmail());
+
+                image = image != null ? image : null;
+
+                System.out.println(image.getUrl());
 
                 //adicionando o conteudo do banco na mensagem
-                messageControl.setContent(users.getName(), message.getDate().toString(), message.getHour().toString(), message.getContent());
+                messageControl.setContent(users.getName(), message.getDate().toString(), message.getHour().toString(), message.getContent(), image);
 
                 //adicionando a mensagem no scrollpane
                 if (vBox != null) {
@@ -150,34 +157,39 @@ public class MainController {
         }
     }
 
+    private void preparateView(Long chanelId) {
+        //define o titulo da página
+        setTitleChanel(chanelId);
+
+        //define o canal atual
+        TokenChanelUtil.setToken(chanelId);
+
+        //limpa a tela
+        clearScrollPane();
+
+        //verificar se o canal é o chat, permite acessoa a barra de digitação
+        checkAndSetChatBar();
+
+        //carrega as mensagens do canal clicado
+        loadMessagesInChanel(chanelId);
+    }
+
     @FXML
     public void onEnditaisButtonClicked() {
-        setTitleChanel(EDITAIS);
-
-       clearScrollPane();
-       checkAndSetChatBar();
+        preparateView(EDITAIS);
         //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
     @FXML
     public void onChatButtonClicked() {
-        setTitleChanel(CHAT);
-        TokenChanelUtil.setToken(CHAT);
-        checkAndSetChatBar();
-        clearScrollPane();
+        preparateView(CHAT);
 
-        loadMessagesInChanel(CHAT);
         //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
-
     @FXML
     public void onEmployeeButtonClicked() {
-        setTitleChanel(VAGAS);
-        TokenChanelUtil.setToken(VAGAS);
-        checkAndSetChatBar();
-
-        clearScrollPane();
+        preparateView(VAGAS);
         //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
@@ -197,14 +209,13 @@ public class MainController {
                 Message message = new Message(null, LocalTime.now(), LocalDate.now(), input, users, chanel);
 
                 DataService.saveItem(message);
-                Alerts.showAlert("certo", null, "foi", Alert.AlertType.CONFIRMATION);
 
                 loadMessagesInChanel(CHAT);
                 contentChatBar.setText("");
                 scrollPaneMain.setVvalue(1.0);
             }
             else {
-                Alerts.showAlert("erro", null, "erro", Alert.AlertType.ERROR);
+                Alerts.showAlert("Erro", null, "Erro ao enviar a mensagem, tente novamente", Alert.AlertType.WARNING);
             }
 
         }

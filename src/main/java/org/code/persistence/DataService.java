@@ -12,10 +12,10 @@ import org.code.model.entities.Chanel;
 import org.code.model.entities.Message;
 import org.code.model.entities.Users;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 public class DataService {
     private final static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit-database");
@@ -80,12 +80,6 @@ public class DataService {
         return null;
     }
 
-    public static Image getImageByHashEmail(String userHashEmail) {
-        Users users = findByHashEmail(userHashEmail);
-
-        return ImageUtil.createFileWithPath(users.getImage_path());
-    }
-
     //atualiza o campo do path da imagem com base no hash so email do user
     public static void updateImageByHashEmail(String userHashEmail) {
         String emailHash = userHashEmail;
@@ -96,7 +90,8 @@ public class DataService {
                     Users users = findByHashEmail(emailHash);
 
                     if (users != null) {
-                        users.setImage_path(ImageUtil.createDialogAndGetPath());
+                        //gerando bytes a partir do path da imagem do usuário
+                         users.setImage(ImageUtil.generateBytesImage(ImageUtil.createDialogAndGetPath()));
                     }
                     else {
                         throw new IllegalArgumentException();
@@ -145,4 +140,5 @@ public class DataService {
 
         return null;
     }
+
 }

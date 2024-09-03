@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 
 public class MessageControl {
     @FXML
+    private ImageView user_icon;
+    @FXML
     private Label user_name;
     @FXML
     private Label date_send;
@@ -21,7 +23,10 @@ public class MessageControl {
         // Inicialize qualquer coisa se necessário
     }
 
-    public void setContent(String name, String date, String hour, String text) {
+    public void setContent(String name, String date, String hour, String text, Image icon) {
+        if (icon != null){
+            user_icon.setImage(icon);
+        }
         user_name.setText(name);
         date_send.setText(date);
         hour_send.setText(hour);

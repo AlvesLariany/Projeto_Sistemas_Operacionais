@@ -8,9 +8,10 @@ import org.code.application.App;
 import org.code.model.entities.Users;
 import org.code.persistence.DataService;
 
-import java.io.File;
+import java.io.*;
 
 public class ImageUtil {
+    private static final String DEFAULT_NAME = "icon_perfil_default_6212.png";
     public static String createDialogAndGetPath() {
         FileChooser fileChooser = new FileChooser();
 
@@ -31,21 +32,59 @@ public class ImageUtil {
         return " ";
     }
 
-    public static Image createFileWithPath(String pathToFile) {
-        File file = new File(pathToFile);
+    public static Image getImageWithEmailUser(String userEmail) {
+        Users users = DataService.findByHashEmail(userEmail);
 
-        if (!file.exists()) {
-            Alerts.showAlert("Erro", null, "Não foi possível carregar a imagem, tente novamente", Alert.AlertType.ERROR);
+        ByteArrayInputStream bais = new ByteArrayInputStream(users.getImage());
+        Image image = new Image(bais);
+
+        return image;
+    }
+
+    public static byte[] generateBytesFromRelative(String resourcePath) {
+
+        byte[] bytesImage = null;
+        try (InputStream inputStream = ImageUtil.class.getResourceAsStream("/media/" + resourcePath)) {
+            if (inputStream == null) {
+                throw new IOException("Imagem não encontrada: " + resourcePath);
+            }
+            bytesImage = inputStream.readAllBytes();
+        } catch (IOException error) {
+            System.out.println("Erro ao converter a imagem em bytes: " + error.getMessage());
+        }
+        return bytesImage;
+    }
+
+    private static boolean verifyIsRelativeOrAbsolute(String path) {
+        String indexStart = "/media/";
+
+        String relativePath = path.substring(indexStart.length());
+
+        System.out.println("SUBSTRING = " + relativePath);
+
+        return relativePath.equals(DEFAULT_NAME);
+    }
+
+    public static byte[] generateBytesImage(String path) {
+        byte[] bytesImage = null;
+
+        if (verifyIsRelativeOrAbsolute(path)) {
+            bytesImage = generateBytesFromRelative(DEFAULT_NAME);
+        }
+        else {
+            File file = new File(path);
+
+            try (FileInputStream fileInputStream = new FileInputStream(new File(path))) {
+                bytesImage = new byte[(int) file.length()];
+
+                fileInputStream.read(bytesImage);
+            } catch (IOException error) {
+                System.out.println("Erro ao converter a imagem em bytes: " + error.getMessage());
+            }
         }
 
-        return new Image(file.toURI().toString());
+        return bytesImage;
     }
 
-    public static Image getImageWithUserToken(String hashEmail) {
-        Users user = DataService.findByHashEmail(hashEmail);
 
-        String pathImage = user.getImage_path();
-
-        return new Image(pathImage);
-    }
 }
