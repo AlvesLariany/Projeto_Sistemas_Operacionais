@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="rootMessage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.code.gui.controllers.MessageControl">
+    <HBox prefHeight="45.0" prefWidth="300.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="219.0">
+            <ImageView fx:id="user_icon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="user_name">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+                <HBox.margin>
+                    <Insets left="10.0" />
+                </HBox.margin>
+            </Label>
+        </HBox>
+        <HBox alignment="BOTTOM_RIGHT" prefHeight="43.0" prefWidth="120.0">
+            <Label fx:id="date_send">
+                <font>
+                    <Font size="11.0" />
+                </font>
+            </Label>
+        </HBox>
+    </HBox>
+    <Pane fx:id="pane_text" prefHeight="85.0" prefWidth="330.0" style="-fx-background-color: #D7D7D7;">
+        <Text fx:id="message_content" layoutX="15.0" layoutY="19.0" strokeWidth="0.0" wrappingWidth="270.0">
+            <font>
+                <Font size="12.5" />
+            </font></Text>
+    </Pane>
+    <HBox alignment="TOP_RIGHT" prefHeight="19.0" prefWidth="300.0">
+        <Label fx:id="hour_send">
+            <font>
+                <Font size="11.0" />
+            </font>
+        </Label>
+    </HBox>
+</VBox>

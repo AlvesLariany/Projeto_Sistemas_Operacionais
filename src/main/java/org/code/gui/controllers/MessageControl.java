@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MessageControl {
@@ -17,6 +19,8 @@ public class MessageControl {
     private Label hour_send;
     @FXML
     private Text message_content;
+    @FXML
+    private VBox rootMessage;
 
     @FXML
     public void initialize() {

@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -31,7 +32,10 @@ import java.util.List;
 public class MainController {
     protected static final Long EDITAIS = 1L;
     protected static final Long VAGAS = 2L;
+
     protected static final Long CHAT = 3L;
+    protected static final int CANAIS = 1;
+    protected static final int PROFILE = 2;
     private boolean orientation = true;
 
     @FXML
@@ -56,6 +60,21 @@ public class MainController {
     private VBox expandedMenu;
 
     @FXML
+    private HBox rootElement;
+
+    @FXML VBox profileVbox;
+
+    @FXML
+    private VBox vboxDefault;
+
+    private static int actualPane;
+
+    private VBox paneViewSuport;
+
+    private boolean menuIsactive = true;
+
+
+    @FXML
     private void toggleMenu() {
         FadeTransition ft = new FadeTransition(Duration.millis(300), expandedMenu);
 
@@ -66,30 +85,33 @@ public class MainController {
         rotateTransition.setCycleCount(1);
         rotateTransition.setAutoReverse(false);
 
-        if (orientation) {
-            rotateTransition.setByAngle(90);
-            orientation = !orientation;
+        if (menuIsactive) {
+            if (orientation) {
+                rotateTransition.setByAngle(90);
+                orientation = !orientation;
+            }
+            else {
+                rotateTransition.setByAngle(-90);
+                orientation = !orientation;
+            }
+
+            rotateTransition.play(); // Iniciar a rotação
+
+            if (expandedMenu.isVisible()) {
+                ft.setFromValue(1.0);
+                ft.setToValue(0.0);
+                ft.setOnFinished(e -> expandedMenu.setVisible(false));
+            } else {
+                expandedMenu.setVisible(true);
+                ft.setFromValue(0.0);
+                ft.setToValue(1.0);
+            }
+
+            ft.play();
+            rotateTransition.play();
         }
-        else {
-            rotateTransition.setByAngle(-90);
-            orientation = !orientation;
-        }
 
-
-        rotateTransition.play(); // Iniciar a rotação
-
-        if (expandedMenu.isVisible()) {
-            ft.setFromValue(1.0);
-            ft.setToValue(0.0);
-            ft.setOnFinished(e -> expandedMenu.setVisible(false));
-        } else {
-            expandedMenu.setVisible(true);
-            ft.setFromValue(0.0);
-            ft.setToValue(1.0);
-        }
-
-        ft.play();
-        rotateTransition.play();
+        onAnyChanelClicked();
     }
 
     private void setTitleChanel(Long id) {
@@ -107,42 +129,49 @@ public class MainController {
     private void loadInView(List<Message> messages) {
         messages.forEach(message -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/components/MessageView.fxml"));
-                VBox vBox = fxmlLoader.load();
-
-                MessageControl messageControl = fxmlLoader.getController();
-
                 //pegando usuário associado a mensagem
                 Users users = DataService.findByHashEmail(message.getId_users().getEmail());
 
-                /* GARANTIR QUE TODOS OS USUÁRIOS RECEM CRIADOS POSSUAM UMA IMAGEM PADRÃO */
+                FXMLLoader fxmlLoader = null;
+                VBox messageElement = null;
+
+                //usado para definir o tamanho da margem esquerda da mensagem
+                boolean user_self = true;
+
+                //adicionando estilo diferente se a mensagem foi enviada pelo usuário logado
+                if (users.getEmail().equals(TokenUserUtil.getUserToken())) {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/components/MessageViewSelf.fxml"));
+                }
+                else {
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/components/MessageViewOther.fxml"));
+                    user_self = false;
+                }
+
+                messageElement = fxmlLoader.load();
+
+                if (user_self) {
+                    VBox.setMargin(messageElement, new Insets(10, 0, 10, 700));
+                }
+                else {
+                    VBox.setMargin(messageElement, new Insets(10, 0, 10, 100));
+                }
+
+                MessageControl messageControl = fxmlLoader.getController();
+
                 Image image = ImageUtil.getImageWithEmailUser(users.getEmail());
-
-                image = image != null ? image : null;
-
-                System.out.println(image.getUrl());
 
                 //adicionando o conteudo do banco na mensagem
                 messageControl.setContent(users.getName(), message.getDate().toString(), message.getHour().toString(), message.getContent(), image);
 
                 //adicionando a mensagem no scrollpane
-                if (vBox != null) {
-                    contentScrollPane.getChildren().add(vBox);
+                if (messageElement != null) {
+                    contentScrollPane.getChildren().add(messageElement);
                 }
 
             } catch (IOException error) {
                 System.out.println("Error in load message: " + error.getMessage());
             }
         });
-    }
-
-    private void loadMessagesInChanel(Long id) {
-        Chanel chanel = DataService.findByChanelId(id);
-
-        List<Message> messages = DataService.findMessageById(chanel);
-
-        clearScrollPane();
-        loadInView(messages);
     }
 
     private void clearScrollPane() {
@@ -155,6 +184,15 @@ public class MainController {
         if (titlePanel != null) {
             chatBar.setVisible(titlePanel.getText().equals("CHAT"));
         }
+    }
+
+    private void loadMessagesInChanel(Long id) {
+        Chanel chanel = DataService.findByChanelId(id);
+
+        List<Message> messages = DataService.findMessageById(chanel);
+
+        clearScrollPane();
+        loadInView(messages);
     }
 
     private void preparateView(Long chanelId) {
@@ -172,25 +210,23 @@ public class MainController {
 
         //carrega as mensagens do canal clicado
         loadMessagesInChanel(chanelId);
+
+        scrollPaneMain.setVvalue(1.1);
     }
 
     @FXML
     public void onEnditaisButtonClicked() {
         preparateView(EDITAIS);
-        //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
     @FXML
     public void onChatButtonClicked() {
         preparateView(CHAT);
-
-        //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
     @FXML
     public void onEmployeeButtonClicked() {
         preparateView(VAGAS);
-        //carregar mensagens do banco com base no ID do canal (Editais)
     }
 
     @FXML
@@ -212,14 +248,76 @@ public class MainController {
 
                 loadMessagesInChanel(CHAT);
                 contentChatBar.setText("");
-                scrollPaneMain.setVvalue(1.0);
+
+                scrollPaneMain.setVvalue(1.1);
             }
             else {
                 Alerts.showAlert("Erro", null, "Erro ao enviar a mensagem, tente novamente", Alert.AlertType.WARNING);
             }
-
         }
+    }
 
+    @FXML
+    public void onProfileButtonClicked() {
+        if (actualPane != PROFILE) {
+            alternateChanelInProfile(PROFILE);
+        }
+    }
+
+    @FXML
+    public void onAnyChanelClicked() {
+        if (actualPane != CANAIS) {
+            alternateChanelInProfile(CANAIS);
+        }
+        else{
+            System.out.println("Canal clicado mas nao troca para Profile");
+        }
+    }
+
+    private void alternateChanelInProfile(int idPane) {
+        if (idPane == CANAIS) {
+
+            System.out.println("CHAMNDO CANIS DEPOIS DE EXIBIR PROFILE = " + rootElement.getChildren());
+
+            rootElement.getChildren().remove(1);
+
+            VBox chanelDefaultView = paneViewSuport;
+
+            rootElement.getChildren().add(chanelDefaultView);
+
+            actualPane = CANAIS;
+
+            menuIsactive = true;
+
+            if (!expandedMenu.isVisible()) {
+                toggleMenu();
+            }
+
+            onEnditaisButtonClicked();
+
+        } else if (idPane == PROFILE) {
+            paneViewSuport = vboxDefault;
+
+            rootElement.getChildren().remove(1);
+
+            HBox profileView = null;
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/ProfileView.fxml"));
+                profileView = fxmlLoader.load();
+
+            } catch (IOException error) {
+                System.out.println("Error ao carregar vbox do profile: " + error.getMessage());
+            }
+
+            rootElement.getChildren().add(profileView);
+
+            if (expandedMenu.isVisible()) {
+                toggleMenu();
+            }
+            menuIsactive = false;
+            actualPane = PROFILE;
+        }
     }
 
     private void onEnterPressed(KeyEvent keyEvent) {
@@ -237,7 +335,13 @@ public class MainController {
         TokenChanelUtil.setToken(EDITAIS);
 
         checkAndSetChatBar();
+
         //carregar mensagens do banco com base no ID do canal (Editais)
+        actualPane = CANAIS;
+        toggleMenu();
+
+        System.out.println(menuIsactive);
+        System.out.println(actualPane);
 
         contentChatBar.setOnKeyPressed(event -> onEnterPressed(event));
     }

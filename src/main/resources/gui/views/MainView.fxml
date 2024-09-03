@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.code.gui.controllers.MainController">
+<HBox fx:id="rootElement" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.code.gui.controllers.MainController">
     <VBox prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #392BFF;" HBox.hgrow="NEVER">
         <ImageView fitHeight="150.0" fitWidth="167.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
             <Image url="@../../media/logo_acada_conecta.png" />
@@ -66,9 +66,20 @@
                     </font>
                 </Button>
             </VBox>
+         <Button mnemonicParsing="false" onAction="#onProfileButtonClicked" style="-fx-background-color: none;" text="Perfil" textFill="WHITE">
+            <font>
+               <Font size="16.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
+         </Button>
         </VBox>
     </VBox>
-    <VBox prefHeight="600.0" prefWidth="812.0" HBox.hgrow="ALWAYS">
+    <VBox fx:id="vboxDefault" prefHeight="600.0" prefWidth="812.0" HBox.hgrow="ALWAYS">
         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="800.0">
             <Label fx:id="titlePanel">
                 <font>
@@ -76,13 +87,13 @@
                 </font>
             </Label>
         </HBox>
-        <ScrollPane fx:id="scrollPaneMain" maxHeight="1.7976931348623157E308" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #F5F5F5;" VBox.vgrow="ALWAYS">
-         <content>
+        <ScrollPane fx:id="scrollPaneMain" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #F5F5F5;" VBox.vgrow="ALWAYS">
             <VBox fx:id="contentScrollPane" maxHeight="1.7976931348623157E308" prefHeight="450.0" prefWidth="800.0">
-               <padding>
-                  <Insets left="120.0" right="120.0" top="35.0" />
-               </padding></VBox>
-         </content></ScrollPane>
+                <padding>
+                    <Insets left="10.0" right="15.0" top="35.0" />
+                </padding>
+            </VBox>
+        </ScrollPane>
         <HBox fx:id="chatBar" alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
             <TextField fx:id="contentChatBar" prefHeight="33.0" prefWidth="730.0" promptText="Digite aqui" HBox.hgrow="ALWAYS">
                 <HBox.margin>

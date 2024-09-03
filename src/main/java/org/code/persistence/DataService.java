@@ -109,20 +109,6 @@ public class DataService {
         }
     }
 
-    public void closeDataService() {
-        try {
-            if (entityManagerFactory != null && entityManager != null) {
-                entityManagerFactory.close();
-                entityManager.close();
-            }
-            else {
-                throw new NullPointerException();
-            }
-        } catch (NumberFormatException error) {
-            System.out.println("Error in close services JPA: " + error.getMessage());
-        }
-    }
-
     public static List<Message> findMessageById(Chanel id) {
         String jpql = "SELECT m FROM Message m WHERE m.id_chanel = :id";
         TypedQuery<Message> query = entityManager.createQuery(jpql, Message.class);
@@ -139,6 +125,20 @@ public class DataService {
         }
 
         return null;
+    }
+
+    public void closeDataService() {
+        try {
+            if (entityManagerFactory != null && entityManager != null) {
+                entityManagerFactory.close();
+                entityManager.close();
+            }
+            else {
+                throw new NullPointerException();
+            }
+        } catch (NumberFormatException error) {
+            System.out.println("Error in close services JPA: " + error.getMessage());
+        }
     }
 
 }
