@@ -7,14 +7,14 @@
     <persistence-unit name="unit-database" transaction-type="RESOURCE_LOCAL">
         <properties>
             <!-- Configuração do JPA para o banco de dados MySQL -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/acadaconectadb" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/acadconecta" />
             <property name="jakarta.persistence.jdbc.user" value="geek" />
             <property name="jakarta.persistence.jdbc.password" value="rootgeek" />
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 
             <!-- Configurações do Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>

@@ -13,7 +13,7 @@ public class Settlement {
 
         Chanel chanel = new Chanel(null, "Chat", "Canal de comunicação entre alunos");
         Users users = new Users("caua@gmail", "caua", "1234", "c://", null);
-        Message message = new Message(null, LocalTime.now(), LocalDate.now(), users, chanel);
+        //Message message = new Message(null, LocalTime.now(), LocalDate.now(), users, chanel);
 
         chanel.setOneUser(users);
         users.setOneChanel(chanel);
@@ -21,7 +21,7 @@ public class Settlement {
         try{
             DataService.saveItem(chanel);
             DataService.saveItem(users);
-            DataService.saveItem(message);
+            //DataService.saveItem(message);
         } catch (Exception err) {
             System.out.println("Erro ao povoar: " + err.getMessage());
         }

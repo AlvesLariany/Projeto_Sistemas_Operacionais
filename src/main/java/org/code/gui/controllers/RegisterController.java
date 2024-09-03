@@ -7,11 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import org.code.gui.util.Alerts;
 import org.code.gui.util.ImageUtil;
+import org.code.model.entities.Chanel;
 import org.code.model.util.HashUtil;
 import org.code.gui.util.LoadViewInPane;
 import org.code.model.entities.Users;
 import org.code.model.util.TokenUserUtil;
 import org.code.persistence.DataService;
+
+import java.util.Set;
 
 public class RegisterController {
     private final int TAM_INFO_USER = 3;
@@ -46,6 +49,19 @@ public class RegisterController {
         Alerts.showAlert("Criação interrompida", null, "A criação da conta foi cancelada pelo usuário", Alert.AlertType.INFORMATION);
     }
 
+    private void setUserInChanels(Users users) {
+        if (users == null) {
+            System.out.println("Error ao associar usuario aos canais");
+        }
+        else {
+            Chanel chanelEditais = DataService.findByChanelId(MainController.EDITAIS);
+            Chanel chanelVagas = DataService.findByChanelId(MainController.VAGAS);
+            Chanel chanelChat = DataService.findByChanelId(MainController.CHAT);
+
+            users.getChanelSet().addAll(Set.of(chanelChat, chanelEditais, chanelVagas));
+        }
+    }
+
     @FXML
     public void onButtonCreateClicked() {
         String[] informationUser = new String[TAM_INFO_USER];
@@ -59,8 +75,11 @@ public class RegisterController {
 
                 String[] hashes = makeHashOfEmailAndPassword(informationUser[USER_EMAIL], informationUser[USER_PASSWORD]);
 
-                if (DataService.saveItem(new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "resources/media/logo_acada_conecta.png", null))) {
-                    Alerts.showAlert("Conta criada", null, "Conta criada com sucesso, realize o login para aproveitar a plataforma", Alert.AlertType.CONFIRMATION);
+                Users users = new Users(hashes[0], informationUser[USER_NAME],  hashes[1], "/media/icon_perfil_default.png", null);
+
+                setUserInChanels(users);
+                if (DataService.saveItem(users)) {
+                    Alerts.showAlert("Sucesso", null, "Usuário criado com sucesso", Alert.AlertType.CONFIRMATION);
                 }
                 else {
                     Alerts.showAlert("Falha", null, "Erro ao criar conta, verifique os campos e tente novamente. Caso o problema persista, tente novamente mais tarde", Alert.AlertType.ERROR);

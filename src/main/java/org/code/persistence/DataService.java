@@ -3,11 +3,19 @@ package org.code.persistence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import org.code.gui.util.Alerts;
 import org.code.gui.util.ImageUtil;
+import org.code.model.entities.Chanel;
+import org.code.model.entities.Message;
 import org.code.model.entities.Users;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
 
 public class DataService {
     private final static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit-database");
@@ -38,6 +46,22 @@ public class DataService {
         if (entityManager.getTransaction().isActive()) {
             entityManager.getTransaction().rollback();
         }
+    }
+
+    public static Chanel findByChanelId(Long id) {
+        Chanel chanel = null;
+        try {
+            chanel = entityManager.find(Chanel.class, id);
+            if (chanel == null) {
+                throw new NullPointerException();
+            }
+            return chanel;
+
+        } catch (NullPointerException error) {
+            aplyRollback();
+            //alerta foi removido daqui
+        }
+        return null;
     }
 
     public static Users findByHashEmail(String emailHash) {
@@ -104,4 +128,21 @@ public class DataService {
         }
     }
 
+    public static List<Message> findMessageById(Chanel id) {
+        String jpql = "SELECT m FROM Message m WHERE m.id_chanel = :id";
+        TypedQuery<Message> query = entityManager.createQuery(jpql, Message.class);
+        query.setParameter("id", id);
+
+        return query.getResultList();
+    }
+
+    public static String getTitleChanel(Long id) {
+        Chanel chanel = entityManager.find(Chanel.class, id);
+
+        if (chanel != null) {
+            return chanel.getName();
+        }
+
+        return null;
+    }
 }
