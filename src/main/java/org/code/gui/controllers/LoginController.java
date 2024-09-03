@@ -34,12 +34,8 @@ public class LoginController {
                 //salvando id do usuário em memória
                 TokenUserUtil.setUserToken(user.getEmail());
 
-                System.out.println(TokenUserUtil.getUserToken());
-
                 //redirecionar para main posteriormente
                 LoadViewInPane.loadView("MainView.fxml", null, "Main");
-
-                System.out.println("foi tela");
             }
             else {
                 Alerts.showAlert("Erro", null, "A senha informada está incorreta", Alert.AlertType.WARNING);

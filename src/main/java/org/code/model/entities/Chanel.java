@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 public class Chanel implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -38,8 +38,6 @@ public class Chanel implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", messageSet=" + messageSet +
-                ", usersSet=" + usersSet +
                 '}';
     }
 

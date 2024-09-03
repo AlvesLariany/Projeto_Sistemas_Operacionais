@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class Message implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -18,6 +18,9 @@ public class Message implements Serializable {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "email")
@@ -29,10 +32,11 @@ public class Message implements Serializable {
 
     public Message() {}
 
-    public Message(Long id, LocalTime hour, LocalDate date, Users id_users, Chanel id_chanel) {
+    public Message(Long id, LocalTime hour, LocalDate date, String content, Users id_users, Chanel id_chanel) {
         this.id = id;
         this.hour = hour;
         this.date = date;
+        this.content = content;
         this.id_users = id_users;
         this.id_chanel = id_chanel;
     }
@@ -40,9 +44,9 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         return "Message{" +
-                "id=" + id +
-                ", hour=" + hour +
+                "hour=" + hour +
                 ", date=" + date +
+                ", content='" + content + '\'' +
                 '}';
     }
 
@@ -87,5 +91,13 @@ public class Message implements Serializable {
 
     public void setId_users(Users id_users) {
         this.id_users = id_users;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -20,7 +20,7 @@ public class UserController {
     public void onUpdateImageButtonClicked() {
         DataService.updateImageByHashEmail(TokenUserUtil.getUserToken());
 
-        Image image = DataService.getImageByHashEmail(TokenUserUtil.getUserToken());
+        Image image = ImageUtil.getImageWithEmailUser(TokenUserUtil.getUserToken());
 
         if (image != null) {
             imageView.setImage(image);
@@ -34,7 +34,7 @@ public class UserController {
     public void initialize() {
         Platform.runLater(() -> {
             if(imageView.isVisible()) {
-                imageView.setImage(ImageUtil.getImageWithUserToken(TokenUserUtil.getUserToken()));
+                imageView.setImage(ImageUtil.getImageWithEmailUser(TokenUserUtil.getUserToken()));
             }
         });
     }
