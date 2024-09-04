@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: 'database_mysql'
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'acadconecta'
+      MYSQL_USER: 'geek'
+      MYSQL_PASSWORD: 'rootgeek'
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetdb
+
+volumes:
+  mysql_data:
+
+networks:
+  mynetdb:
+    driver: bridge

@@ -1,6 +1,7 @@
 package org.code.application;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -10,9 +11,12 @@ import org.code.gui.util.LoadViewInPane;
 public class App extends Application {
     private static Stage mainStage;
 
+    private static HostServices hostServiceMain = null;
+
     @Override
     public void start(Stage stage) throws Exception {
         mainStage = stage;
+        hostServiceMain = getHostServices();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
         Pane pane = fxmlLoader.load();
@@ -34,5 +38,9 @@ public class App extends Application {
 
     public static Stage getStageMainReference() {
         return mainStage;
+    }
+
+    public static HostServices getHostSerciveInApp() {
+        return hostServiceMain;
     }
 }

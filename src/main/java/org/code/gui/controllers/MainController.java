@@ -194,7 +194,7 @@ public class MainController {
                 Image image = ImageUtil.getImageWithEmailUser(users.getEmail());
 
                 String hour = message.getHour().toString();
-                String hourFormated = hour.substring(0, hour.length() - 4);
+                String hourFormated = hour.substring(0, 8);
 
                 //adicionando o conteudo do banco na mensagem
                 messageControl.setContent(users.getName(), dateFormater(message.getDate().toString()), hourFormated, message.getContent(), image);
