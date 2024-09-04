@@ -1,9 +1,6 @@
 package org.code.persistence;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import org.code.gui.util.Alerts;
@@ -122,8 +119,14 @@ public class DataService {
 
             Alerts.showAlert("Atualizado", null, "Imagem de perfil foi atualizada com sucesso", Alert.AlertType.CONFIRMATION);
 
-        } catch (IllegalArgumentException error) {
-            aplyRollback();
+        } catch (IllegalArgumentException | RollbackException error) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            //limpa o contexto de persistência para evitar estados inconsistentes
+            if (entityManager.isOpen()) {
+                entityManager.clear();
+            }
             Alerts.showAlert("Erro", null, ("Falha ao atualizar a imagem da conta"), Alert.AlertType.ERROR);
         }
     }

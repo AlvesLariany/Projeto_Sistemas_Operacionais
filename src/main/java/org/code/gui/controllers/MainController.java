@@ -7,9 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,7 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import org.code.application.App;
 import org.code.gui.util.Alerts;
@@ -28,7 +26,6 @@ import org.code.gui.util.ImageUtil;
 import org.code.model.entities.Chanel;
 import org.code.model.entities.Message;
 import org.code.model.entities.Users;
-import org.code.model.util.HashUtil;
 import org.code.model.util.TokenChanelUtil;
 import org.code.model.util.TokenUserUtil;
 import org.code.persistence.DataService;
@@ -162,20 +159,21 @@ public class MainController {
     private void loadInView(List<Message> messages) {
         messages.forEach(message -> {
             try {
-                //pegando usuário associado a mensagem
+                // Pegando usuário associado à mensagem
                 Users users = DataService.findByHashEmail(message.getId_users().getEmail());
+
+                String idHashUser = "#" + (users.getEmail().substring(0, 4));;
 
                 FXMLLoader fxmlLoader = null;
                 VBox messageElement = null;
 
-                //usado para definir o tamanho da margem esquerda da mensagem
+                // Usado para definir o tamanho da margem esquerda da mensagem
                 boolean user_self = true;
 
-                //adicionando estilo diferente se a mensagem foi enviada pelo usuário logado
+                // Adicionando estilo diferente se a mensagem foi enviada pelo usuário logado
                 if (users.getEmail().equals(TokenUserUtil.getUserToken())) {
                     fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/components/MessageViewSelf.fxml"));
-                }
-                else {
+                } else {
                     fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/components/MessageViewOther.fxml"));
                     user_self = false;
                 }
@@ -183,11 +181,28 @@ public class MainController {
                 messageElement = fxmlLoader.load();
 
                 if (user_self) {
-                    VBox.setMargin(messageElement, new Insets(10, 0, 10, 700));
+                    VBox.setMargin(messageElement, new Insets(10, 0, 0, 700));
+                } else {
+                    VBox.setMargin(messageElement, new Insets(10, 0, 0, 100));
                 }
-                else {
-                    VBox.setMargin(messageElement, new Insets(10, 0, 10, 100));
-                }
+
+                // Adicionando listener para ajustar o clip após o layout ser definido
+                VBox finalMessageElement = messageElement;
+
+                messageElement.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+
+                    VBox contentMessage = (VBox) finalMessageElement.getChildren().get(1);
+
+                    //pegando o conteudo textual e adicionando evento
+                    contentMessage.layoutBoundsProperty().addListener((observableInter, oldValueInter, newValueInter) -> {
+                        Rectangle clip = new Rectangle();
+                        clip.setWidth(newValueInter.getWidth());
+                        clip.setHeight(newValueInter.getHeight());
+                        clip.setArcWidth(10);
+                        clip.setArcHeight(10);
+                        contentMessage.setClip(clip);
+                    });
+                });
 
                 MessageControl messageControl = fxmlLoader.getController();
 
@@ -196,10 +211,10 @@ public class MainController {
                 String hour = message.getHour().toString();
                 String hourFormated = hour.substring(0, 8);
 
-                //adicionando o conteudo do banco na mensagem
-                messageControl.setContent(users.getName(), dateFormater(message.getDate().toString()), hourFormated, message.getContent(), image);
+                // Adicionando o conteúdo do banco na mensagem
+                messageControl.setContent(users.getName(), dateFormater(message.getDate().toString()), hourFormated, message.getContent(), image, idHashUser);
 
-                //adicionando a mensagem no scrollpane
+                // Adicionando a mensagem no scrollpane
                 if (messageElement != null) {
                     contentScrollPane.getChildren().add(messageElement);
                 }
@@ -209,6 +224,7 @@ public class MainController {
         });
     }
 
+
     private void clearScrollPane() {
         if (contentScrollPane != null) {
             contentScrollPane.getChildren().clear();
@@ -217,7 +233,19 @@ public class MainController {
 
     private void checkAndSetChatBar() {
         if (titlePanel != null) {
-            chatBar.setVisible(titlePanel.getText().equals("CHAT"));
+            try{
+                Users currentUser = DataService.findByHashEmail(TokenUserUtil.getUserToken());
+                System.out.println(currentUser.getCodEspecial());
+                if (titlePanel.getText().equals("CHAT") || currentUser.getCodEspecial() != null) {
+                    System.out.println("Entrou no negocio");
+                    chatBar.setVisible(true);
+                }
+                else {
+                    chatBar.setVisible(false);
+                }
+            } catch (Exception error) {
+                System.out.println("Erro ao carregar chat bar: " + error.getMessage());
+            }
         }
     }
 
@@ -279,7 +307,7 @@ public class MainController {
 
                 DataService.saveItem(message);
 
-                loadMessagesInChanel(CHAT);
+                loadMessagesInChanel(TokenChanelUtil.getToken());
                 contentChatBar.setText("");
 
             }
@@ -370,9 +398,6 @@ public class MainController {
         }
     }
 
-    /*TODO: Reduzir codigo, funções iguais chamadar da mesma forma nos métodos
-    *  verificar se o scroll pane foi até o seu limite inferior
-    * pensar no perfil dos usuários especiais */
     @FXML
     private void initialize() {
         setTitleChanel(EDITAIS);
@@ -383,6 +408,8 @@ public class MainController {
         //carregar mensagens do banco com base no ID do canal (Editais)
         actualPane = CANAIS;
         toggleMenu();
+
+        loadMessagesInChanel(EDITAIS);
 
         //evento que monitora o VBox dentro do scroll pane, serve para deslizar a tela para baixo de form autometica
         contentScrollPane.heightProperty().addListener((obs, oldHeight, newHeight) -> {

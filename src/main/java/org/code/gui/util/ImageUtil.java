@@ -58,11 +58,17 @@ public class ImageUtil {
     private static boolean verifyIsRelativeOrAbsolute(String path) {
         String indexStart = "/media/";
 
-        String relativePath = path.substring(indexStart.length());
+        String relativePath = null;
 
-        System.out.println("SUBSTRING = " + relativePath);
+        if (path.length() > indexStart.length()) {
+            relativePath = path.substring(indexStart.length());
+        }
 
-        return relativePath.equals(DEFAULT_NAME);
+        if (relativePath != null) {
+            return relativePath.equals(DEFAULT_NAME);
+        }
+
+        return false;
     }
 
     public static byte[] generateBytesImage(String path) {

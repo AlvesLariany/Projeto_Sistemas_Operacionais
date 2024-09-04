@@ -22,6 +22,8 @@ public class MessageControl implements Initializable {
     @FXML
     private ImageView user_icon;
     @FXML
+    private Label hashUser;
+    @FXML
     private Label user_name;
     @FXML
     private Label date_send;
@@ -46,16 +48,13 @@ public class MessageControl implements Initializable {
 
         int indexFinal = urlStart.indexOf(" ");
 
-        System.out.println(urlStart);
-        System.out.println("-1 NÃO ATIVO " + indexFinal);
-
         if (indexFinal == -1) {
-            System.out.println("-1 ativo: " + urlStart.length());
             indexFinal = urlStart.length();
         }
 
-        return text.substring(indexStart, indexFinal);
+        return urlStart.substring(0, indexFinal);
     }
+
 
     private void onTextWithUrlClicked(Event event, String text) {
         String url = getUrlInText(text);
@@ -63,7 +62,7 @@ public class MessageControl implements Initializable {
         App.getHostSerciveInApp().showDocument(url);
     }
 
-    public void setContent(String name, String date, String hour, String text, Image icon) {
+    public void setContent(String name, String date, String hour, String text, Image icon, String hash_user) {
         if (icon != null){
             user_icon.setImage(icon);
             Rectangle rectangle = new Rectangle(0, 0, 38, 38);
@@ -74,10 +73,14 @@ public class MessageControl implements Initializable {
         user_name.setText(name);
         date_send.setText(date);
         hour_send.setText(hour);
+        hashUser.setText(hash_user);
         if (checkHaveLink(text)) {
             message_content.setCursor(Cursor.HAND);
             message_content.setOnMouseClicked(event -> onTextWithUrlClicked(event, text));
-            message_content.setText(text);
+
+            String replacedText = text.replace(getUrlInText(text), "Link conteúdo");
+
+            message_content.setText(replacedText);
         }
         else {
             message_content.setText(text);
