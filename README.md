@@ -2,11 +2,11 @@
 
 Como rodar a aplicação acadConecta
 
-Pré-requisitos:
-Possuir o docker instalado;
-Possuir o JDK versão 17+;
-Possuir o sistema de gerenciamento Git;
-Certifique-se de que a docker-engine está em execução.
+### Pré-requisitos:
+- Possuir o docker instalado; <br>
+- Possuir o JDK versão 17+;<br>
+- Possuir o sistema de gerenciamento Git;<br>
+- Certifique-se de que a docker-engine está em execução.<br>
 
 ### Primeiro passo:
 clone o repositório no GitHub com o seguinte comando:
