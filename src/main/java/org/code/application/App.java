@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.code.gui.util.LoadViewInPane;
+import org.code.persistence.Settlement;
 
 public class App extends Application {
     private static Stage mainStage;
@@ -16,6 +17,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         mainStage = stage;
+        //serviço que redireciona para o browser quando um edital é anexado na mensagem
         hostServiceMain = getHostServices();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/views/LoginView.fxml"));
@@ -27,6 +29,8 @@ public class App extends Application {
 
         LoadViewInPane.fullScreen(stage);
 
+        Settlement.implement();
+
         mainStage.setTitle("Login");
         mainStage.setScene(scene);
         mainStage.show();
@@ -36,10 +40,12 @@ public class App extends Application {
         launch();
     }
 
+    //forma de "pegar a tela" e outras classes
     public static Stage getStageMainReference() {
         return mainStage;
     }
 
+    //serviço para abrir o browser
     public static HostServices getHostSerciveInApp() {
         return hostServiceMain;
     }

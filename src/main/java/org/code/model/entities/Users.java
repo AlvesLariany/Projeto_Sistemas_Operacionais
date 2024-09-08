@@ -19,9 +19,8 @@ public class Users implements Serializable {
 
     @Column(nullable = false)
     private String password;
-
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "MEDIUMBLOB")
     private byte[] image;
 
     @Column(nullable = true)

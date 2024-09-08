@@ -39,7 +39,6 @@ import java.util.List;
 public class MainController {
     protected static final Long EDITAIS = 1L;
     protected static final Long VAGAS = 2L;
-
     protected static final Long CHAT = 3L;
     protected static final int CANAIS = 1;
     protected static final int PROFILE = 2;
@@ -83,6 +82,7 @@ public class MainController {
 
     @FXML
     private void toggleMenu() {
+        //setando animação do menu lateral
         FadeTransition ft = new FadeTransition(Duration.millis(300), expandedMenu);
 
         RotateTransition rotateTransition = new RotateTransition();
@@ -92,6 +92,7 @@ public class MainController {
         rotateTransition.setCycleCount(1);
         rotateTransition.setAutoReverse(false);
 
+        //verifica se o atributo "menuIsactive" true, caso não seja, o menu não será expandido
         if (menuIsactive) {
             if (orientation) {
                 rotateTransition.setByAngle(90);
@@ -102,7 +103,8 @@ public class MainController {
                 orientation = !orientation;
             }
 
-            rotateTransition.play(); // Iniciar a rotação
+            // Iniciar a rotação
+            rotateTransition.play();
 
             if (expandedMenu.isVisible()) {
                 ft.setFromValue(1.0);
@@ -122,6 +124,7 @@ public class MainController {
     }
 
     private void setTitleChanel(Long id) {
+        //define o título do canal
         if (titlePanel.isVisible()) {
             String title = DataService.getTitleChanel(id);
             if (title != null) {
@@ -139,6 +142,7 @@ public class MainController {
 
         String dateFormatted = null;
 
+        //ajustando o formato da data vinda do banco para o nosso padrão
         DateTimeFormatter dtm = DateTimeFormatter.ofPattern(dateDefault);
         DateTimeFormatter dtmOutput = DateTimeFormatter.ofPattern(dateOutput);
 
@@ -146,7 +150,7 @@ public class MainController {
             // Analisar a string de entrada usando o padrão de entrada
             LocalDate date = LocalDate.parse(dateIn, dtm);
 
-            // Formatá-lo para o novo padrão
+            // Formatando para o novo padrão
             dateFormatted = date.format(dtmOutput);
 
 
@@ -224,7 +228,6 @@ public class MainController {
         });
     }
 
-
     private void clearScrollPane() {
         if (contentScrollPane != null) {
             contentScrollPane.getChildren().clear();
@@ -236,6 +239,8 @@ public class MainController {
             try{
                 Users currentUser = DataService.findByHashEmail(TokenUserUtil.getUserToken());
                 System.out.println(currentUser.getCodEspecial());
+                //verificação que define se o usuário tem, ou não acesso ao canal
+                //usuário acessa se estiver no canal "CHAT" ou, se seu código de usuário especial não for nulo (nesse caso, terá acesso a todos os canais)
                 if (titlePanel.getText().equals("CHAT") || currentUser.getCodEspecial() != null) {
                     System.out.println("Entrou no negocio");
                     chatBar.setVisible(true);
@@ -298,7 +303,7 @@ public class MainController {
             Alerts.showAlert("Falha", null, "Erro ao enviar mensagem, campo está vazio", Alert.AlertType.WARNING);
         }
         else {
-            //usuario que enviou
+            //buscando o usuario que enviou
             Users users = DataService.findByHashEmail(TokenUserUtil.getUserToken());
             Chanel chanel = DataService.findByChanelId(TokenChanelUtil.getToken());
 
@@ -336,6 +341,7 @@ public class MainController {
     }
 
     private void alternateChanelInProfile(int idPane) {
+        //manipulando tela para transição entre canis e perfil
         if (idPane == CANAIS) {
 
             rootElement.getChildren().remove(1);

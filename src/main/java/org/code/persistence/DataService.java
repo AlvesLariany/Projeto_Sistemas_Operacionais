@@ -19,6 +19,8 @@ public class DataService {
     private final static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit-database");
     private final static EntityManager entityManager = entityManagerFactory.createEntityManager();
 
+
+    //usando tipo coringa "<T>" para possibilitar que qualquer entidade aproveite o mesmo método de salvamentoi
     public static <T> boolean saveItem(T object) {
         if (object != null) {
             try {

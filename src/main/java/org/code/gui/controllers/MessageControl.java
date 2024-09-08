@@ -63,6 +63,7 @@ public class MessageControl implements Initializable {
     }
 
     public void setContent(String name, String date, String hour, String text, Image icon, String hash_user) {
+       //montando a mensagem com o conteúdo do banco
         if (icon != null){
             user_icon.setImage(icon);
             Rectangle rectangle = new Rectangle(0, 0, 38, 38);
@@ -90,6 +91,7 @@ public class MessageControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (backgroundRegion.isVisible()) {
+            //adaptando o tamanho do corpo da mesnagem com base nas dimensões do texto
             backgroundRegion.prefWidthProperty().bind(stackPaneMessage.widthProperty());
             backgroundRegion.prefWidthProperty().bind(stackPaneMessage.heightProperty());
         }

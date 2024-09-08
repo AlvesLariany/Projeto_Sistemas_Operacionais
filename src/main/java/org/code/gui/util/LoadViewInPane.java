@@ -33,6 +33,7 @@ public class LoadViewInPane {
 
             fullScreen(mainStage);
 
+            //sobrecrevendo a tela atual com o que foi passada
             mainStage.setTitle(titlePane);
             mainStage.setScene(sceneNew);
             mainStage.show();

@@ -18,9 +18,11 @@ public class Chanel implements Serializable {
     @Column(nullable = false)
     private String description;
 
+    //relacionamento com messagem
     @OneToMany(mappedBy = "id_chanel")
     private Set<Message> messageSet = new LinkedHashSet<>();
 
+    //relacionamento com os canais
     @ManyToMany(mappedBy = "chanelSet")
     private Set<Users> usersSet = new LinkedHashSet<>();
 

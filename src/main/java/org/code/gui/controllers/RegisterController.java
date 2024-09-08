@@ -70,9 +70,7 @@ public class RegisterController {
         if (verifyIfUserExist(informationUser[USER_EMAIL])) {
 
             if (isHaveNull(informationUser)) {
-                //quando criar o usuário, verificar no banco se o email já foi registrado
-                //criar termos de uso da plataforma
-
+                //cripptografando email e senha do usuário com SHA-256
                 String[] hashes = makeHashOfEmailAndPassword(informationUser[USER_EMAIL], informationUser[USER_PASSWORD]);
 
                 byte[] bytesOfImage = ImageUtil.generateBytesImage("/media/icon_perfil_default_6212.png");

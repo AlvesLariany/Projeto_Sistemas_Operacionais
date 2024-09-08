@@ -74,6 +74,7 @@ public class ImageUtil {
     public static byte[] generateBytesImage(String path) {
         byte[] bytesImage = null;
 
+        //caso o caminho seja relativo (imagem padrão) a geração do arquivo segue outra lógica
         if (verifyIsRelativeOrAbsolute(path)) {
             bytesImage = generateBytesFromRelative(DEFAULT_NAME);
         }

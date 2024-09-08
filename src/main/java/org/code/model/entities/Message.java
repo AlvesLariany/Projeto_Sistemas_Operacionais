@@ -22,10 +22,12 @@ public class Message implements Serializable {
     @Column(nullable = false)
     private String content;
 
+    //usuário que enviou a mensagem
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "email")
     private Users id_users;
 
+    //relacionamento com o canal que a mensagem pertence
     @ManyToOne
     @JoinColumn(name = "id_chanel", referencedColumnName = "id")
     private Chanel id_chanel;

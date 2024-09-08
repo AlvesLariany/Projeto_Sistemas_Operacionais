@@ -37,7 +37,7 @@ public class ProfileController implements Initializable {
         if (rootElement.isVisible()) {
 
             Users users = DataService.findByHashEmail(TokenUserUtil.getUserToken());
-
+            //carregando informações do usuário na tela
             if (users != null) {
                 icor_perfil.setImage(ImageUtil.getImageWithEmailUser(users.getEmail()));
                 user_name.setText(users.getName());
